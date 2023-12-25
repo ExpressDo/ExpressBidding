@@ -1,40 +1,20 @@
 // Bidding App
+use debug::PrintTrait;
+fn main() {
+    let x = 5;
+    let x = x + 1; //x shadows to give a value of 6
+    {
+        let x = x * 2; // 6 * 2 = 12
+        'Inner scope x value is:'.print();
+        x.print()
+    }
+    'Outer scope x value is:'.print();
+    x.print(); //6
+}
 
-// Define the contract
-contract ExpressBidding:
+fun Bidding() {
 
-    // State variables
-    owner: address
-    highestBidder: address
-    highestBid: Uint128
-    auctionEndTime: Timestamp
+   let x = 15;
+    x.print();
 
-    // Event to log bids
-    Bid: event({bidder: indexed(address), amount: uint128})
-
-    // Event to log auction end
-    AuctionEnded: event({winner: indexed(address), amount: uint128})
-
-    // Initialize the bidding app
-    init(biddingDuration: Timestamp):
-        owner = msg.sender
-        auctionEndTime = now() + biddingDuration
-
-    // Function to place a bid
-    function placeBid() payable:
-        // Check if the auction is still open
-        require(now() < auctionEndTime, "Auction has ended")
-
-        // Check if the bid is higher than the current highest bid
-        require(msg.value > highestBid, "Bid is too low")
-
-        // If there was a previous highest bidder, refund their bid
-        if highestBidder != 0:
-            send(highestBidder, highestBid)
-
-        // Update the highest bid and bidder
-        highestBid = msg.value
-        highestBidder = msg.sender
-
-        // Log the bid event
-        log Bid({bidder: msg.send
+}
